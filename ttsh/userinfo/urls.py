@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^user_center_site/$',views.user_center_site),
     url(r'^register_handle/$',views.register_handle),
     url(r'^login_handle/$',views.login_handle),
-    url(r'^$',views.index),
+    # url(r'^$',views.index),
     url(r'^quit_login/$',views.quit_login),
 ]

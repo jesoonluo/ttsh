@@ -1,3 +1,4 @@
+#coding:utf-8
 from django.shortcuts import render,redirect
 from models import *
 from django.http import JsonResponse
@@ -8,19 +9,19 @@ def login(request):
     cookie = request.COOKIES.get('uname','')
     print request.path
 
-    return render(request,'userinfo/login.html',{'uname':cookie,'top':'1'})
+    return render(request,'userinfo/login.html',{'uname':cookie,'top':'1','title':'登录页'})
 
 def register(request):
-    return render(request,'userinfo/register.html',{'top':'1'})
+    return render(request,'userinfo/register.html',{'top':'1','title':'注册'})
 @islogin
 def user_center_info(request):
     user = UserInfo.objects.filter(pk=request.session['user_id'])
     uname = user[0].user_name
     umail = user[0].user_mail
-    return render(request,'userinfo/user_center_info.html',{'uname':uname,'umail':umail})
+    return render(request,'userinfo/user_center_info.html',{'uname':uname,'umail':umail,'title':'用户中心'})
 @islogin
 def user_center_order(request):
-    return render(request,'userinfo/user_center_order.html')
+    return render(request,'userinfo/user_center_order.html',{'title':'用户中心'})
 @islogin
 def user_center_site(request):
     user = UserInfo.objects.get(pk=request.session['user_id'])
@@ -38,10 +39,10 @@ def user_center_site(request):
         user.receiver_code = rec_mail
         user.receiver_addr = rec_addr
         user.save()
-    return render(request,'userinfo/user_center_site.html',{'user':user})
+    return render(request,'userinfo/user_center_site.html',{'user':user,'title':'用户中心'})
 
-def index(request):
-    return render(request,'userinfo/index.html')
+# def index(request):
+#     return render(request,'userinfo/index.html')
 
 def register_handle(request):
     user = UserInfo()

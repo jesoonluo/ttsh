@@ -19,5 +19,5 @@ class GoodsInfo(models.Model):
     gsubtitle = models.CharField(max_length=200)
     gkucun = models.IntegerField(default=100)
     gcontent = HTMLField()
-    gtype = models.ForeignKey('TypeInfo')
+    gtype = models.ForeignKey('TypeofGoods')
 
