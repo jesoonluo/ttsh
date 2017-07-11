@@ -1,5 +1,4 @@
 {%extends 'base.html'%}
-
 {%block head%}
 	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
@@ -73,7 +72,7 @@
 				<a href="/{{c.id}}/">{{c.gtitle|truncatechars:14}}</a>
 				{%endfor%}
 			</div>
-			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="/list{{temp.t1.id}}_1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -82,7 +81,7 @@
 				{%for n in temp.nlist%}
 				<li>
 					<h4><a href="#">{{n.gtitle}}</a></h4>
-					<a href="#"><img src="/static/{{n.gpic}}"></a>
+					<a href="/detail{{n.id}}/"><img src="/static/{{n.gpic}}"></a>
 					<div class="prize">¥ {{n.gprice}}</div>
 				</li>
 				{%endfor%}

@@ -4,6 +4,7 @@ from models import *
 from django.http import JsonResponse
 import datetime
 from user_decorators import *
+from goodsinfo.models import GoodsInfo
 # Create your views here.
 def login(request):
     cookie = request.COOKIES.get('uname','')
@@ -18,7 +19,15 @@ def user_center_info(request):
     user = UserInfo.objects.filter(pk=request.session['user_id'])
     uname = user[0].user_name
     umail = user[0].user_mail
-    return render(request,'userinfo/user_center_info.html',{'uname':uname,'umail':umail,'title':'用户中心'})
+    #从cookie里拿到最近浏览的商品信息
+    recent_goods_id = request.COOKIES.get('goods_ids','').split(',')
+    #删除最开始的那个元素-->列表的第6个元素
+    recent_goods_id.pop()
+    #遍历列表拿到最近浏览的goods的id,并生成goods对象保存到新的列表
+    recent_glist = []
+    for gid in recent_goods_id:
+        recent_glist.append(GoodsInfo.objects.filter(id=gid)[0])
+    return render(request,'userinfo/user_center_info.html',{'uname':uname,'umail':umail,'title':'用户中心','glist':recent_glist})
 @islogin
 def user_center_order(request):
     return render(request,'userinfo/user_center_order.html',{'title':'用户中心'})
