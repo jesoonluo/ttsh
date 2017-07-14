@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^login_handle/$',views.login_handle),
     # url(r'^$',views.index),
     url(r'^quit_login/$',views.quit_login),
+    url(r'^islogin/$',views.islogin)
 ]

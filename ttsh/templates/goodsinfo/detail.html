@@ -4,22 +4,35 @@
 	<script type="text/javascript">
 		$(function () {
 			$('#add_cart').click(function(){
-			    	var $add_x = $('#add_cart').offset().top;
-					var $add_y = $('#add_cart').offset().left;
-					var $to_x = $('#show_count').offset().top;
-					var $to_y = $('#show_count').offset().left;
-					$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-					$(".add_jump").stop().animate({
-						'left': $to_y+7,
-						'top': $to_x+7},
-						"fast", function() {
-					    	var num = parseInt($('#show_count').html());
-					    	num++;
-							$(".add_jump").fadeOut('fast',function(){
-								$('#show_count').html(num);
-							});
-					});
-				});
+				$.get('/islogin/',function (data) {
+					if(data.islogin){//已经登陆
+						var num = $('.num_show').val();
+						var gid = {{goods.id}};
+						$.get('/cart/add_goods/',{'count':num,'gid':gid},function (data) {
+							if(data.isadd){
+							    alert('添加成功');
+							    refresh();
+							    var $add_x = $('#add_cart').offset().top;
+								var $add_y = $('#add_cart').offset().left;
+								var $to_x = $('#show_count').offset().top;
+								var $to_y = $('#show_count').offset().left;
+								$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+								$(".add_jump").stop().animate({
+									'left': $to_y+7,
+									'top': $to_x+7},
+									"fast", function() {
+									$(".add_jump").fadeOut('fast');
+								});
+							}else{
+							    alert('亲，小咪闹情绪呢，请稍后再试');
+							}
+                        });
+                	}else {//未登录，转向登录页
+						location.href = '/login/';
+                	}
+
+                });
+			});
 				$('.num_show').blur(function () {
 				    var num = parseInt($('.num_show').val());
 					var gkucun = {{goods.gkucun}};
@@ -60,6 +73,7 @@
 					num--;
 					$('.num_show').val(num).blur();
 				});
+
 			});
 	</script>
 {%endblock head%}
@@ -94,7 +108,7 @@
 			<div class="total">总价：<em>{{goods.gprice}}</em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
 			</div>
 		</div>
 	</div>

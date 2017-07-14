@@ -94,4 +94,10 @@ def quit_login(request):
     request.session.flush()
     return redirect('/login/')
 
+def islogin(request):
+    # print '--------islogin--------'
+    if request.session.has_key('user_id'):
+        return JsonResponse({'islogin':1})
+    else:
+        return JsonResponse({'islogin':0})
 

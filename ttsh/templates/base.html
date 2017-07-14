@@ -5,6 +5,25 @@
 	<title>天天生鲜-{{title}}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        function refresh() {
+                $.get('/islogin/',function (data) {
+//                alert(data.islogin);
+                    if(data.islogin){
+                            $.get('/cart/get_cart_count/',function (data) {
+                                $('#show_count').text(data.count)
+        //                        alert(data.count);
+                            })
+                        }else{
+                            $('#show_count').text('0')
+                        }
+                    });
+                }
+        $(function () {
+            refresh();
+        })
+	</script>
     {%block head%}
     {%endblock head%}
 </head>
@@ -33,7 +52,7 @@
 					<span>|</span>
 					<a href="/user_center_info/">用户中心</a>
 					<span>|</span>
-					<a href="cart.html">我的购物车</a>
+					<a href="/cart/">我的购物车</a>
 					<span>|</span>
 					<a href="/user_center_order/">我的订单</a>
 				</div>
@@ -43,27 +62,41 @@
 
 				{%if chart_show|default:'0' == '2'%}
 				<div class="search_bar clearfix">
-					<a href="index.html" class="logo fl"><img src="/static/images/logo.png"></a>
+					<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
 					<div class="search_con fl"><form method="get" action="/search/" target="_blank">
 						<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
 						<input type="submit" class="input_btn fr" value="搜索"></form>
 					</div>
 					<div class="guest_cart fr">
-						<a href="cart.html" class="cart_name fl">我的购物车</a>
+						<a href="/cart/" class="cart_name fl">我的购物车</a>
 						<div class="goods_count fl" id="show_count">1</div>
 					</div>
 				</div>
+   <!-- <script type="text/javascript">
+    $.get('/islogin/',function (data) {
+//                alert(data.islogin);
+                    if(data.islogin){
+                            $.get('/cart/get_cart_count/',function (data) {
+                                $('#show_count').text(data.count)
+        //                        alert(data.count);
+                            })
+                        }else{
+                            $('#show_count').text('0')
+                        }
+                    });
+    </script>-->
 				{%else%}
 				<div class="search_bar clearfix">
 					<a href="../goodsinfo/index.html" class="logo fl"><img src="/static/images/logo.png"></a>
-					<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+					<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;{{title}}</div>
 					<div class="search_con fr"><form method="get" action="/search/" target="_blank">
 						<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
 						<input type="submit" class="input_btn fr" value="搜索"></form>
 					</div>
 				</div>
+
 				{%endif%}
-		{%endif%}
+	{%endif%}
 {%block body%}
 {%endblock body%}
 	<div class="footer">
